@@ -110,7 +110,17 @@ button:focus {
 }
 
 #reset {
-    background-color: #999;
+    background-color: #971b05;
+    font-size: .8rem;
+    height: 1.4rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+
+}
+
+#reset:hover {
+    background-color: #b62208;
+    opacity: 1.0;
 }
 
 /**** Classes for custom styles ****/
