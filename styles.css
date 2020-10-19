@@ -94,10 +94,18 @@ button:focus {
 #kaleidoscope { /* the whole container of hexagons */
     display: flex;
     flex-direction: column;
-    height: 400px;
-    width: 400px;
+    height: 500px;
+    width: 500px;
     justify-content: center;
     align-items: center;
+    margin: 0px 0px 30px;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%; /* of column in main */
+    justify-content: center;
 }
 
 #reset {
@@ -192,12 +200,12 @@ button:focus {
     position: relative;
     overflow: hidden;
     display: inline-block;
-    margin-right: -3px;
+    margin-right: -6px;
     vertical-align: middle;
 }
 
 .hex-box:nth-child(odd) {
-    margin-bottom: 6px;
+    margin-bottom: 2px;
 }
 
 .hex-box:nth-child(even) {

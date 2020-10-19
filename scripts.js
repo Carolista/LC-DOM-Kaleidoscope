@@ -19,6 +19,8 @@
 
 /** DATA **/
 
+// TODO: Revise color orders and limit number of schemes
+
 let schemes = [
     { "name": "Fresh Melon", "colors": ["#386641","#6a994e","#a7c957","#f2e8cf","#bc4749"]},
     { "name": "Tahiti", "colors": ["#ff9f1c","#ffbf69","#ffffff","#cbf3f0","#2ec4b6"]},
@@ -52,6 +54,7 @@ function init() {
     let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
     let currentColor = currentScheme.colors[0]; // default to first color of scheme
     let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagons
+    let kaleidoscope = document.getElementById("kaleidoscope"); // whole block of hexagons
     let resetButton = document.getElementById("reset");
 
     // Display color schemes on page
@@ -154,7 +157,7 @@ function init() {
         }
 
         // If user clicks on hexagon
-        if (event.target.matches(".hexagon")) {
+        if (event.target.matches(".clickable")) {
             event.target.style.backgroundColor = currentColor;
         } 
 
@@ -168,6 +171,47 @@ function init() {
 
     }, false);
 
+    // Use event delegation for mouseovers
+    document.addEventListener('mouseover', function (event) {
+
+        // Hover effect over specific clickables
+        if (event.target.matches(".clickable")) {
+            event.target.style.opacity = "0.8"; // just the one
+        }
+
+        // Fade all except clickables when hovering over entire kaleidoscope
+        if (event.target.id === "kaleidoscope" || event.target.matches(".hexagon") || event.target.matches("hex-row")) {
+            for (let i=0; i < hexagons.length; i++) {
+                if (! hexagons[i].matches(".clickable")) {
+                    hexagons[i].style.opacity = "0.2"; // all non-clickables
+                } 
+            }
+        }
+
+        // Force opacity return when hovering over header 
+        if (event.target.id === "header" || event.target.id === "button-container") {
+            for (let i=0; i < hexagons.length; i++) {
+                hexagons[i].style.opacity = "1.0";
+            }
+        }
+
+    }, false);
+
+    // Use event delegation for mouseouts
+    document.addEventListener('mouseout', function (event) {
+
+        // For single clickables    
+        if (event.target.matches(".clickable")) {
+            event.target.style.opacity = "1.0";
+        }
+        
+        // When moving off entire kaleidoscope
+        if (event.target.id === "kaleidoscope") {
+            for (let i=0; i < hexagons.length; i++) {
+                hexagons[i].style.opacity = "1.0";
+            }
+        }
+    }, false);
 
     function componentToHex(c) {
         var hex = c.toString(16);
