@@ -84,7 +84,7 @@ button:focus {
 
 #page-title {
     color: white;
-    font-family: 'Raleway Dots', sans-serif;
+    font-family: 'Raleway Dots', sans-serif; /* TODO: replace this - don't like it after all */
     font-size: 8vw; /* responsive, relative to viewport width */
     max-width: 1200px; /* but limited in growth */
 	text-align: center;
@@ -99,6 +99,7 @@ button:focus {
     justify-content: center;
     align-items: center;
     margin: 0px 0px 30px;
+    cursor: pointer;
 }
 
 #button-container {
@@ -162,7 +163,12 @@ button:focus {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin: 10px;
+    align-items: center;
+    width: 140px;
+    height: 36px;
+    margin: 0px;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .color-block {
@@ -171,6 +177,7 @@ button:focus {
     height: 20px;
     margin: 2px;
     border: 1px solid #CCC;
+    cursor: pointer;
 }
 
 
@@ -181,6 +188,7 @@ button:focus {
     height: 50px;
     margin: 10px;
     border: 1px solid #CCC;
+    cursor: pointer;
 }
 
 

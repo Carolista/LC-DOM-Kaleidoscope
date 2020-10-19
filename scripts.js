@@ -176,7 +176,7 @@ function init() {
 
         // Hover effect over specific clickables
         if (event.target.matches(".clickable")) {
-            event.target.style.opacity = "0.8"; // just the one
+            event.target.style.opacity = "0.7"; // just the one
         }
 
         // Fade all except clickables when hovering over entire kaleidoscope
@@ -188,12 +188,18 @@ function init() {
             }
         }
 
-        // Force opacity return when hovering over header 
-        if (event.target.id === "header" || event.target.id === "button-container") {
+        // Force opacity return when hovering below kaleidoscope but still in column 
+        if (event.target.id === "button-container") {
             for (let i=0; i < hexagons.length; i++) {
                 hexagons[i].style.opacity = "1.0";
             }
         }
+
+        // Hovering over individual colors
+        if (event.target.matches(".color-option")) {
+            event.target.style.borderColor = "#444";
+        }
+
 
     }, false);
 
@@ -205,12 +211,18 @@ function init() {
             event.target.style.opacity = "1.0";
         }
         
-        // When moving off entire kaleidoscope
-        if (event.target.id === "kaleidoscope") {
+        // When moving off kaleidoscope (and column, to reduce glitchiness)
+        if (event.target.id === "kaleidoscope" || event.target.id === "right-column") {
             for (let i=0; i < hexagons.length; i++) {
                 hexagons[i].style.opacity = "1.0";
             }
         }
+
+        // Moving off individual colors 
+        if (event.target.matches(".color-option")) {
+            event.target.style.borderColor = "#CCC";
+        }
+
     }, false);
 
     function componentToHex(c) {
