@@ -110,12 +110,14 @@ function init() {
         }
     }
 
-    // For reset button with confirmation popup
     function resetDesign() {
         for (let i=0; i < hexagons.length; i++) {
             hexagons[i].style.backgroundColor = "#222";
         }
     }
+
+    // Reset design first time so DOM has colors (can't access style sheet);
+    resetDesign();
 
     /** EVENT LISTENERS **/
 
@@ -152,14 +154,19 @@ function init() {
             highlightSelection(event.target);
         }
 
-        // If user clicks on hexagon
+        // If user clicks on hexagon, either change color or toggle back to default
         if (event.target.matches(".clickable")) {
+            let existingColor = rgbToHex(event.target.style.backgroundColor);
+            let toggleOff = (existingColor === currentColor);
             for (let i=0; i < hexagons.length; i++) {
                 if (hexagons[i].classList[1] === event.target.classList[1]) { // mirror effect
-                    // TODO: add ability to revert to default color like a toggle
-                    hexagons[i].style.backgroundColor = currentColor;
+                    if (toggleOff) {
+                        hexagons[i].style.backgroundColor = "#222";
+                    } else {
+                        hexagons[i].style.backgroundColor = currentColor;  
+                    }                
                 }
-            }
+            }      
         } 
 
         // If user clicks on reset button
