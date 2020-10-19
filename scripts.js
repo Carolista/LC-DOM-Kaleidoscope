@@ -150,7 +150,7 @@ function init() {
         // If user wants to change current color
         if (event.target.matches(".color-option")) {
             resetBorders();
-            currentColor = event.target.style.backgroundColor;
+            currentColor = rgbToHex(event.target.style.backgroundColor); // stay consistent
             highlightSelection(event.target);
         }
 
@@ -158,11 +158,15 @@ function init() {
         if (event.target.matches(".clickable")) {
             let existingColor = rgbToHex(event.target.style.backgroundColor);
             let toggleOff = (existingColor === currentColor);
+            console.log("comparing " + existingColor + " with " + currentColor);
+            console.log(toggleOff);
             for (let i=0; i < hexagons.length; i++) {
                 if (hexagons[i].classList[1] === event.target.classList[1]) { // mirror effect
                     if (toggleOff) {
+                        console.log("back to grey!");
                         hexagons[i].style.backgroundColor = "#222";
                     } else {
+                        console.log("new color!");
                         hexagons[i].style.backgroundColor = currentColor;  
                     }                
                 }
