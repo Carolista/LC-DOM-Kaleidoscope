@@ -37,8 +37,6 @@ main {
     height: calc(100vh - 8w - 40px);
     min-height: calc(100vh - 140px);
     padding: 0px;
-    align-items: center;
-    padding: 40px;
     box-sizing: border-box;
 }
 
@@ -106,17 +104,26 @@ button:focus {
 
 /**** Classes for custom styles ****/
 
-.half-page {
+.main-column {
     display: flex;
     flex-direction: column;
     min-height: 100%; /* of main */
-    width: 50vw;
     justify-content: center;
     align-items: center;
-    padding: 40px;
+    padding: 30px;
 }
 
+.width-25 {
+    width: 25vw;
+}
 
+.width-15 {
+    width: 15vw;
+}
+
+.width-60 {
+    width: 60vw;
+}
 
 .container {
     display: flex;
@@ -137,6 +144,35 @@ button:focus {
 .vcenter {
     align-items: center; /* applies to flexbox only */
 }
+
+
+/* COLOR SCHEMES */
+
+.color-scheme-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px;
+}
+
+.color-block {
+    background-color: white;  /* Default until user clicks button to get a random scheme */
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    border: 1px solid #CCC;
+}
+
+
+/* CURRENT COLOR SELECT */
+
+.color-option {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border: 1px solid #CCC;
+}
+
 
 /* HEXAGONS */
 
@@ -173,7 +209,7 @@ button:focus {
     width: 100%;
     top: -5%;
     left: 0;
-    box-shadow: inset 0px 2px 2px 0px;
+    /* box-shadow: inset 0px 2px 2px 0px; */
     background-color: #999;
     transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
 }

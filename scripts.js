@@ -7,9 +7,9 @@
         - Always have white and off-black (#222) as options
         - "Fill" the hexagons in the kaleidoscope with different colors
         - Edit only one "slice", and the others will reflect it
+        - If the user changes color schemes, the entire kaleidoscope needs to reflect the change
 
-    BONUS: Make the page work in light mode or dark mode.
-    SUPER BONUS: Assign random color values from the default scheme to the hexagons
+    BONUS: Make the page work in light mode or dark mode
 
     The HTML and CSS files are set. It is recommended not to edit them.
     The color schemes and some JS functionality are provided in this file already; you just need to make everything interactive for the user.
@@ -35,8 +35,11 @@ let schemes = [
 ];
 // HT: Hex values for palettes copied, rather efficiently, from https://coolors.co/palettes/trending
 
+let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
+let currentColor = currentScheme.colors[0]; // default to first color of scheme
 
 
+/** DOM STUFF **/
 
 // Event listener for page load
 window.addEventListener("load", function() {
@@ -47,22 +50,79 @@ window.addEventListener("load", function() {
 // DOM code for page elements
 function init() {
 
-    // Create multidimensional array to hold all hexagons and add event listeners
-    let hexagons = [];
-    for (let i=8; i<12; i++) {
-        hexagons.push([]); // new row
-        for (let j=0; j<19; j++) {
-            hexagons[i-8].push(document.getElementById("hex" + i + "-" + j));
-            console.log("Put hexagon in array.");
-            hexagons[i-8][j].addEventListener("click", function() {
-                hexagons[i-8][j].style.backgroundColor = "#222";
-                console.log("This hexagon is now a new color!");
-            });
-            console.log("Added event listener to another hexagon!");
-        }   
+    // Display color schemes on page
+    for (let i=0; i<11; i++) {
+        for (let j=0; j<5; j++) {
+            document.getElementById("group" + i + "-" + j).style.backgroundColor = schemes[i].colors[j];
+        }
     }
 
-    
+    // Display current color options on page
+    function displayCurrentOptions() {
+        for (let i=0; i<5; i++) {
+            document.getElementById("color" + i).style.backgroundColor = currentScheme.colors[i];
+        }  
+    }
+
+    // Display first five colors
+    displayCurrentOptions();
+    // These two only have to be done once
+    document.getElementById("white").style.backgroundColor = "white";
+    document.getElementById("grey").style.backgroundColor = "#222";
+
+    // For selecting a new color
+    function resetBorders() {
+        let choices = document.getElementsByClassName("color-option");
+        for (let i=0; i<7; i++) {
+            choices[i].style.borderColor = "#CCC"
+            choices[i].style.borderWidth = 1 + "px";
+            choices[i].style.margin = 10 + "px";
+        }
+    }
+
+    // For selecting a new color
+    function highlightSelection(element) {
+        element.style.borderColor = "#222";
+        element.style.borderWidth = 4 + "px";
+        element.style.margin = 7 + "px";
+    }
+
+    // Use event delegation for click events on page
+    document.addEventListener('click', function (event) {
+
+        // If user wants to change color scheme
+        if (event.target.id.slice(0,5) === "group") {
+            // Pull scheme from array
+            if (event.target.id.length % 2 === 0) {
+                currentScheme = schemes[Number(event.target.id.slice(5,6))];
+            } else {
+                currentScheme = schemes[Number(event.target.id.slice(5,7))];
+            }
+            // Update display on page
+            displayCurrentOptions();
+            // Set default selection to first color if not grey or white
+            if (event.target.id !== "white" && event.target.id !== "grey") {
+                currentColor = currentScheme.colors[0];
+                resetBorders();
+                highlightSelection(document.getElementById("color0"));
+            }
+        }
+
+        // If user wants to change current color
+        if (event.target.matches(".color-option")) {
+            resetBorders();
+            currentColor = event.target.style.backgroundColor;
+            highlightSelection(event.target);
+        }
+
+        // If user clicks on hexagon
+        if (event.target.matches(".hexagon")) {
+            event.target.style.backgroundColor = currentColor;
+        } 
+
+    }, false);
+
+
     
 
 
