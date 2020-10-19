@@ -1,15 +1,17 @@
 /*** KALEIDOSCOPE ***/
 
 /*
-    Your goal is to make this interactive for users. They should be able to:
+    The goal is to make this interactive for users. They should be able to:
         - Choose a color scheme
         - Select a specific color from that scheme to use to change hexagons
         - Always have white and off-black (#222) as options
         - "Fill" the hexagons in the kaleidoscope with different colors
         - Edit only one "slice", and the others will reflect it
         - If the user changes color schemes, the entire kaleidoscope needs to reflect the change
+        - There should be a reset button with a confirmation popup
 
-    BONUS: Make the page work in light mode or dark mode
+    BONUS 1: Make the page work in light mode or dark mode
+    BONUS 2: Make the page load with a random design already in place.
 
     The HTML and CSS files are set. It is recommended not to edit them.
     The color schemes and some JS functionality are provided in this file already; you just need to make everything interactive for the user.
@@ -87,17 +89,46 @@ function init() {
         element.style.margin = 7 + "px";
     }
 
+    // Refresh entire kaleidoscope with new color scheme *before* it is set
+    function updateKaleidoscopeScheme(indexOfNewScheme) {
+        let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagon divs
+        let oldColor;
+        let indexOfColor;
+        let newColor;
+        for (let i=0; i < hexagons.length; i++) {
+            oldColor = hexagons[i].style.backgroundColor;
+            // If not white or grey
+            if (oldColor) {
+                indexOfColor = currentScheme.colors.indexOf(rgbToHex(oldColor));
+                newColor = schemes[indexOfNewScheme].colors[indexOfColor];
+                hexagons[i].style.backgroundColor = newColor;
+            }
+        }
+        console.log("Kaleidoscope design changed to new color scheme");
+    }
+
+    // TODO: Implement mirroring - change opacity of all non-clickables during edits (mouseover event)
+
+    // TODO: Implement reset button with confirmation popup
+
+    /** EVENT LISTENERS **/
+
     // Use event delegation for click events on page
     document.addEventListener('click', function (event) {
 
         // If user wants to change color scheme
         if (event.target.id.slice(0,5) === "group") {
-            // Pull scheme from array
+            let indexOfScheme;
+            // Get index of scheme in array
             if (event.target.id.length % 2 === 0) {
-                currentScheme = schemes[Number(event.target.id.slice(5,6))];
+                indexOfScheme = Number(event.target.id.slice(5,6));
             } else {
-                currentScheme = schemes[Number(event.target.id.slice(5,7))];
+                indexOfScheme = Number(event.target.id.slice(5,7));
             }
+            // Change colors of kaleidoscope
+            updateKaleidoscopeScheme(indexOfScheme);
+            // Set current scheme
+            currentScheme = schemes[indexOfScheme];
             // Update display on page
             displayCurrentOptions();
             // Set default selection to first color if not grey or white
@@ -123,6 +154,24 @@ function init() {
     }, false);
 
 
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+    
+    function rgbToHex(rgb) {
+        // parse rgb as string of code to get individual numbers
+        let paren1 = rgb.indexOf("(");
+        let comma1 = rgb.indexOf(",");
+        let r = Number(rgb.slice(paren1+1,comma1));
+        rgb = rgb.slice(comma1+1);
+        let comma2 = rgb.indexOf(",");
+        let paren2 = rgb.indexOf(")");
+        let g = Number(rgb.slice(0,comma2));
+        let b = Number(rgb.slice(comma2+1,paren2));
+        // convert and concatenate to hex code string
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
     
 
 
