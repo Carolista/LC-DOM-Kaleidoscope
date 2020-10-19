@@ -9,7 +9,7 @@
 
 body {
 	background-color: white;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	font-size: 12pt;
 	font-weight: 400;
 	color: #222; 
@@ -21,12 +21,13 @@ body {
     box-sizing: border-box;
 }
 
-header {
-	background-color: #222;
-    height: calc(8vw + 40px);
-    max-height: 140px;
-    padding: 10px 30px 30px;
-    box-sizing: border-box;
+section {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
 }
 
 main {
@@ -51,45 +52,35 @@ div {
 }
 
 h1 {
-    font-weight: normal; /* no artificial bolding */
+    font-weight: 900;
 }
 
 p {
     margin: .5rem 0px; 
 }
 
-button {
-    height: 2rem;
-    color: white;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    background-color: #222;
-    border: none;
-    border-radius: 5px;
-    margin: 40px;
-    padding: 5px 10px;
-}
-
-button:hover {
-    cursor: pointer;
-    opacity: 0.80;
-}
-
-button:focus {
-    outline: 0;
-}
-
 
 /**** IDs for specific elements ****/
 
 #page-title {
-    color: white;
-    font-family: 'Raleway Dots', sans-serif; /* TODO: replace this - don't like it after all */
-    font-size: 8vw; /* responsive, relative to viewport width */
-    max-width: 1200px; /* but limited in growth */
-	text-align: center;
-	margin: 0px auto;  
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    background-color: transparent; /* not sure why this has to be declared */
+    font-family: 'Righteous', sans-serif;
+    font-size: 5vw;
+    text-transform: uppercase;
+    margin: 0px;  
 }
+
+#left-column {
+    width: 35vw
+}
+
+#right-column {
+    width: 65vw
+}
+
 
 #kaleidoscope { /* the whole container of hexagons */
     display: flex;
@@ -98,7 +89,7 @@ button:focus {
     width: 540px;
     justify-content: center;
     align-items: center;
-    margin: 0px 0px 30px;
+    margin: 0px 0px 60px;
     cursor: pointer;
 }
 
@@ -109,41 +100,17 @@ button:focus {
     justify-content: center;
 }
 
-#reset {
-    background-color: #971b05;
-    font-size: .8rem;
-    height: 1.4rem;
-    padding: 0.2rem 0.4rem;
-    border-radius: 3px;
 
-}
 
-#reset:hover {
-    background-color: #b62208;
-    opacity: 1.0;
-}
 
 /**** Classes for custom styles ****/
-
-.main-column {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%; /* of main */
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-}
 
 .width-25 {
     width: 25vw;
 }
 
-.width-15 {
-    width: 15vw;
-}
-
-.width-60 {
-    width: 60vw;
+.width-10 {
+    width: 10vw;
 }
 
 .container {
@@ -166,6 +133,26 @@ button:focus {
     align-items: center; /* applies to flexbox only */
 }
 
+.vhcenter {
+    justify-content: center; /* applies to flexbox only */
+    align-items: center; /* applies to flexbox only */
+}
+
+.pseudobutton {
+    font-family: "Righteous", sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    height: 1.5rem;
+    margin: 40px 30px;
+    padding: 0.3rem 0.5rem;
+    border: 2px solid white;
+}
+
+.pseudobutton:hover {
+    cursor: pointer;
+    /* border color handled by DOM */
+}
+
 
 /* COLOR SCHEMES */
 
@@ -186,7 +173,7 @@ button:focus {
     width: 20px;
     height: 20px;
     margin: 2px;
-    border: 1px solid #CCC;
+    border: 1px solid #eee;
     cursor: pointer;
 }
 
@@ -196,8 +183,8 @@ button:focus {
 .color-option {
     width: 50px;
     height: 50px;
-    margin: 10px;
-    border: 1px solid #CCC;
+    margin: 9px;
+    border: 2px solid #eee;
     cursor: pointer;
 }
 
@@ -237,7 +224,6 @@ button:focus {
     width: 100%;
     top: -5%;
     left: 0;
-    /* box-shadow: inset 0px 2px 2px 0px; */
     background-color: #222;
     transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
 }
@@ -249,7 +235,6 @@ button:focus {
     width: 100%;
     top: -5%;
     left: 0;
-    /* box-shadow: inset 0px 2px 2px 0px; */
     background-color: white;
     transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
 }

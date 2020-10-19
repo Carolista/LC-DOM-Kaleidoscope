@@ -22,20 +22,17 @@
 // TODO: Revise color orders and limit number of schemes
 
 let schemes = [
-    { "name": "Fresh Melon", "colors": ["#386641","#6a994e","#a7c957","#f2e8cf","#bc4749"]},
-    { "name": "Tahiti", "colors": ["#ff9f1c","#ffbf69","#ffffff","#cbf3f0","#2ec4b6"]},
-    { "name": "Lush Lipstick", "colors": ["#4f000b","#720026","#ce4257","#ff7f51","#ff9b54"]},
-    { "name": "Lake House", "colors": ["#086788","#07a0c3","#f0c808","#fff1d0","#dd1c1a"]},
-    { "name": "Club Neon", "colors": ["#75dddd","#84c7d0","#9297c4","#9368b7","#aa3e98"]},
-    { "name": "Disco", "colors": ["#5f0f40","#9a031e","#fb8b24","#e36414","#0f4c5c"]},
     { "name": "Daytona", "colors": ["#b09e99","#fee9e1","#fad4c0","#c0fdfb","#64b6ac"]},
-    { "name": "Tahoe", "colors": ["#c17c74","#7a6c5d","#bcac9b","#ddc9b4","#2a3d45"]},
-    { "name": "Poolside", "colors": ["#5bc0eb","#fde74c","#9bc53d","#e55934","#fa7921"]},
+    { "name": "Tahoe", "colors": ["#bc4749", "#c17c74","#7a6c5d","#bcac9b","#ddc9b4"]},
+    { "name": "Tahiti", "colors": ["#ff9f1c","#ffbf69","#ffecb6","#cbf3f0","#2ec4b6"]},  
+    { "name": "Club Neon", "colors": ["#75dddd","#84c7d0","#9297c4","#9368b7","#aa3e98"]},
     { "name": "Wisteria", "colors": ["#360568","#5b2a86","#7785ac","#9ac6c5","#4eb870"]},
+    { "name": "Fresh Melon", "colors": ["#386641","#6a994e","#a7c957","#f2e8cf","#bc4749"]},
+    { "name": "Lake House", "colors": ["#086788","#07a0c3","#f0c808","#fff1d0","#dd1c1a"]},
     { "name": "Sitka", "colors": ["#db504a","#ff6f59","#b2b09b","#254441","#43aa8b"]},
-    { "name": "Mocha Latte", "colors": ["#5e3023","#f3e9dc","#895737","#c08552","#dab49d"]},
-    { "name": "Mount Rainier", "colors": ["#131515","#2b2c28","#fffafb","#7de2d1","#339989"]},
-    { "name": "Flagstaff", "colors": ["#2a9d8f","#264653","#e9c46a","#f4a261","#e76f51"]}
+    { "name": "Flagstaff", "colors": ["#2a9d8f","#175e7a","#e9c46a","#f4a261","#e76f51"]},
+    { "name": "Lush Lipstick", "colors": ["#4f000b","#720026","#ce4257","#ff7f51","#ff9b54"]},
+    { "name": "Disco", "colors": ["#5f0f40","#9a031e","#fb8b24","#e36414","#0f4c5c"]}
 ];
 // HT: Hex values for palettes copied, rather efficiently, from https://coolors.co/palettes/trending
 
@@ -51,50 +48,77 @@ window.addEventListener("load", function() {
 // DOM code for page elements
 function init() {
 
+    let base = "#ffffff";
+    let accent = "#222222";
+    let borderDefault = "#eeeeee";
+    darkMode = false;
+
     let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
     let currentColor = currentScheme.colors[0]; // default to first color of scheme
     let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagons
+    let blanks = document.getElementsByClassName("blank"); // array of all blanks
+    let darkModeButton = document.getElementById("dark-mode");
     let resetButton = document.getElementById("reset");
+    let pageTitle = document.getElementById("page-title");
 
-    // Display color schemes on page
-    for (let i=0; i<11; i++) {
-        for (let j=0; j<5; j++) {
-            document.getElementById("group" + i + "-" + j).style.backgroundColor = schemes[i].colors[j];
+    function displayColorSchemes() {
+        for (let i=0; i< schemes.length; i++) {
+            for (let j=0; j<5; j++) {
+                document.getElementById("group" + i + "-" + j).style.backgroundColor = schemes[i].colors[j];
+            }
         }
     }
-
-    // Display current color options on page
+    
     function displayCurrentOptions() {
         for (let i=0; i<5; i++) {
             document.getElementById("color" + i).style.backgroundColor = currentScheme.colors[i];
         }  
     }
 
-    // Display first five colors
-    displayCurrentOptions();
-    // These two only have to be done once
-    document.getElementById("white").style.backgroundColor = "white";
-    document.getElementById("grey").style.backgroundColor = "#222";
-
-
-    // Needed when selecting a new color
     function resetBorders() {
         let choices = document.getElementsByClassName("color-option");
         for (let i=0; i<7; i++) {
-            choices[i].style.borderColor = "#CCC"
-            choices[i].style.borderWidth = 1 + "px";
-            choices[i].style.margin = 10 + "px";
+            choices[i].style.borderColor = borderDefault;
+            choices[i].style.borderWidth = 2 + "px";
+            choices[i].style.margin = 9 + "px";
         }
     }
 
-    // Also needed when selecting a new color
     function highlightSelection(element) {
-        element.style.borderColor = "#222";
+        element.style.borderColor = accent;
         element.style.borderWidth = 4 + "px";
         element.style.margin = 7 + "px";
     }
 
-    // Refresh entire kaleidoscope with new color scheme *before* it is set
+    function setBlanks() {
+        for (let i=0; i < blanks.length; i++) {
+            blanks[i].style.backgroundColor = base;
+        }
+    }
+
+    function renderPageColors() {
+        displayColorSchemes();
+        displayCurrentOptions(); // first five colors
+        document.getElementById("base").style.backgroundColor = base;
+        document.getElementById("accent").style.backgroundColor = accent;
+        resetBorders();
+        highlightSelection(document.getElementById("color0"));
+        setBlanks();
+        setMiscStyles();
+    }
+
+    function setMiscStyles() {
+        // Change body background color
+        document.body.style.backgroundColor = base;
+        // Change page title and button colors
+        pageTitle.style.color = accent;
+        darkModeButton.style.color = accent;
+        darkModeButton.style.borderColor = base;
+        resetButton.style.color = accent;
+        resetButton.style.borderColor = base;
+    }
+
+    // Refresh entire kaleidoscope with new color scheme *before* currentScheme is overwritten
     function updateKaleidoscopeScheme(indexOfNewScheme) {
         let oldColor;
         let indexOfColor;
@@ -102,7 +126,7 @@ function init() {
         for (let i=0; i < hexagons.length; i++) {
             oldColor = hexagons[i].style.backgroundColor;
             // If not white or grey
-            if (oldColor) {
+            if (oldColor) { // TODO: check logic
                 indexOfColor = currentScheme.colors.indexOf(rgbToHex(oldColor));
                 newColor = schemes[indexOfNewScheme].colors[indexOfColor];
                 hexagons[i].style.backgroundColor = newColor;
@@ -112,12 +136,15 @@ function init() {
 
     function resetDesign() {
         for (let i=0; i < hexagons.length; i++) {
-            hexagons[i].style.backgroundColor = "#222";
+            hexagons[i].style.backgroundColor = accent;
         }
     }
 
+    // First time to populate colors and base/accent/border defaults
+    renderPageColors();
     // Reset design first time so DOM has colors (can't access style sheet);
     resetDesign();
+    
 
     /** EVENT LISTENERS **/
 
@@ -140,7 +167,7 @@ function init() {
             // Update display on page
             displayCurrentOptions();
             // Set default selection to first color if not grey or white
-            if (event.target.id !== "white" && event.target.id !== "grey") {
+            if (event.target.id !== "base" && event.target.id !== "accent") {
                 currentColor = currentScheme.colors[0];
                 resetBorders();
                 highlightSelection(document.getElementById("color0"));
@@ -158,20 +185,42 @@ function init() {
         if (event.target.matches(".clickable")) {
             let existingColor = rgbToHex(event.target.style.backgroundColor);
             let toggleOff = (existingColor === currentColor);
-            console.log("comparing " + existingColor + " with " + currentColor);
-            console.log(toggleOff);
             for (let i=0; i < hexagons.length; i++) {
                 if (hexagons[i].classList[1] === event.target.classList[1]) { // mirror effect
                     if (toggleOff) {
-                        console.log("back to grey!");
-                        hexagons[i].style.backgroundColor = "#222";
+                        hexagons[i].style.backgroundColor = accent;
                     } else {
-                        console.log("new color!");
                         hexagons[i].style.backgroundColor = currentColor;  
                     }                
                 }
             }      
         } 
+
+        // If user toggles dark mode button
+        if (event.target === darkModeButton) {
+            // Switch values of all reference variables
+            if (!darkMode) {
+                darkMode = true;
+                base = "#222222";
+                accent = "#ffffff";
+                darkModeButton.innerHTML = "Light Mode";
+            } else {
+                darkMode = false;
+                base = "#ffffff";
+                accent = "#222222";
+                darkModeButton.innerHTML = "Dark Mode";
+            }
+            // Flip any hexagons that were base or accent.
+            for (let i=0; i < hexagons.length; i++) {
+                if (rgbToHex(hexagons[i].style.backgroundColor) === base) {
+                    hexagons[i].style.backgroundColor = accent;
+                } else if (rgbToHex(hexagons[i].style.backgroundColor) === accent) {
+                    hexagons[i].style.backgroundColor = base;
+                }
+            }
+            // Re-render colors on page
+            renderPageColors();
+        }
 
         // If user clicks on reset button
         if (event.target === resetButton) {
@@ -209,7 +258,12 @@ function init() {
 
         // Hovering over individual colors
         if (event.target.matches(".color-option")) {
-            event.target.style.borderColor = "#444";
+            event.target.style.borderColor = accent;
+        }
+
+        // Hovering over buttons
+        if (event.target.matches(".pseudobutton")) {
+            event.target.style.borderColor = accent;
         }
 
 
@@ -232,7 +286,12 @@ function init() {
 
         // Moving off individual colors 
         if (event.target.matches(".color-option")) {
-            event.target.style.borderColor = "#CCC";
+            event.target.style.borderColor = borderDefault;
+        }
+
+        // Hovering over buttons
+        if (event.target.matches(".pseudobutton")) {
+            event.target.style.borderColor = base;
         }
 
     }, false);
