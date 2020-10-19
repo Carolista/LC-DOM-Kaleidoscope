@@ -1,0 +1,192 @@
+/**** CASCADING STYLE SHEET ****/
+
+/*
+    IT IS NOT NECESSARY TO EDIT THIS FILE
+    (but be very careful if you do)
+*/
+
+/**** Defaults for standard elements ****/
+
+body {
+	background-color: white;
+	font-family: 'Raleway', sans-serif;
+	font-size: 12pt;
+	font-weight: 400;
+	color: #222; 
+	width: 100vw;
+	height: 100vh;
+	margin: 0px;
+	padding: 0px;
+    overflow-x: hidden; 
+    box-sizing: border-box;
+}
+
+header {
+	background-color: #222;
+    height: calc(8vw + 40px);
+    max-height: 140px;
+    padding: 10px 30px 30px;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: calc(100vh - 8w - 40px);
+    min-height: calc(100vh - 140px);
+    padding: 0px;
+    align-items: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+section {
+    margin: 0px 0px 30px;
+}
+
+div {
+    position: relative;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1 {
+    font-weight: normal; /* no artificial bolding */
+}
+
+p {
+    margin: .5rem 0px; 
+}
+
+button {
+    height: 2.3rem;
+    width: 120px;
+    padding: 3px;
+    color: white;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    background-color: #222;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.80;
+}
+
+button:focus {
+    outline: 0;
+}
+
+
+/**** IDs for specific elements ****/
+
+#page-title {
+    color: white;
+    font-family: 'Raleway Dots', sans-serif;
+    font-size: 8vw; /* responsive, relative to viewport width */
+    max-width: 1200px; /* but limited in growth */
+	text-align: center;
+	margin: 0px auto;  
+}
+
+#kaleidoscope { /* the whole container of hexagons */
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/**** Classes for custom styles ****/
+
+.half-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* of main */
+    width: 50vw;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+
+
+.container {
+    display: flex;
+}
+
+.row {
+    flex-direction: row;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.hcenter {
+    justify-content: center; /* applies to flexbox only */
+}
+
+.vcenter {
+    align-items: center; /* applies to flexbox only */
+}
+
+/* HEXAGONS */
+
+.hex-row {
+    display: flex;
+    flex-wrap: nowrap; /* important to keep them in the hex grid */
+    justify-content: center;
+    align-items: center;
+}
+
+.hex-box {
+    margin: 0px;
+    height: 27px;
+    width: 30px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: -3px;
+    vertical-align: middle;
+}
+
+.hex-box:nth-child(odd) {
+    margin-bottom: 6px;
+}
+
+.hex-box:nth-child(even) {
+    margin-bottom: -27px;
+}
+
+.hexagon {
+    overflow: hidden;
+    position: absolute;
+    height: 110%;
+    width: 100%;
+    top: -5%;
+    left: 0;
+    box-shadow: inset 0px 2px 2px 0px;
+    background-color: #999;
+    transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
+}
+
+.blank {
+    overflow: hidden;
+    position: absolute;
+    height: 110%;
+    width: 100%;
+    top: -5%;
+    left: 0;
+    /* box-shadow: inset 0px 2px 2px 0px; */
+    background-color: white;
+    transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
+}
+
