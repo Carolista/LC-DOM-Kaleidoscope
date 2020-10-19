@@ -37,9 +37,6 @@ let schemes = [
 ];
 // HT: Hex values for palettes copied, rather efficiently, from https://coolors.co/palettes/trending
 
-let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
-let currentColor = currentScheme.colors[0]; // default to first color of scheme
-
 
 /** DOM STUFF **/
 
@@ -51,6 +48,11 @@ window.addEventListener("load", function() {
 
 // DOM code for page elements
 function init() {
+
+    let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
+    let currentColor = currentScheme.colors[0]; // default to first color of scheme
+    let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagons
+    let resetButton = document.getElementById("reset");
 
     // Display color schemes on page
     for (let i=0; i<11; i++) {
@@ -72,7 +74,8 @@ function init() {
     document.getElementById("white").style.backgroundColor = "white";
     document.getElementById("grey").style.backgroundColor = "#222";
 
-    // For selecting a new color
+
+    // Needed when selecting a new color
     function resetBorders() {
         let choices = document.getElementsByClassName("color-option");
         for (let i=0; i<7; i++) {
@@ -82,7 +85,7 @@ function init() {
         }
     }
 
-    // For selecting a new color
+    // Also needed when selecting a new color
     function highlightSelection(element) {
         element.style.borderColor = "#222";
         element.style.borderWidth = 4 + "px";
@@ -91,7 +94,6 @@ function init() {
 
     // Refresh entire kaleidoscope with new color scheme *before* it is set
     function updateKaleidoscopeScheme(indexOfNewScheme) {
-        let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagon divs
         let oldColor;
         let indexOfColor;
         let newColor;
@@ -109,7 +111,12 @@ function init() {
 
     // TODO: Implement mirroring - change opacity of all non-clickables during edits (mouseover event)
 
-    // TODO: Implement reset button with confirmation popup
+    // For reset button with confirmation popup
+    function resetDesign() {
+        for (let i=0; i < hexagons.length; i++) {
+            hexagons[i].style.backgroundColor = "#222";
+        }
+    }
 
     /** EVENT LISTENERS **/
 
@@ -150,6 +157,14 @@ function init() {
         if (event.target.matches(".hexagon")) {
             event.target.style.backgroundColor = currentColor;
         } 
+
+        // If user clicks on reset button
+        if (event.target === resetButton) {
+            if (window.confirm("Are you sure you want to reset your design? This cannot be undone.")) {
+                resetDesign();
+                console.log("Design reset.");
+            }         
+        }
 
     }, false);
 
