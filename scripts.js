@@ -54,7 +54,6 @@ function init() {
     let currentScheme = schemes[Math.floor(Math.random() * schemes.length)]; // randomized default on page load
     let currentColor = currentScheme.colors[0]; // default to first color of scheme
     let hexagons = document.getElementsByClassName("hexagon"); // array of all hexagons
-    let kaleidoscope = document.getElementById("kaleidoscope"); // whole block of hexagons
     let resetButton = document.getElementById("reset");
 
     // Display color schemes on page
@@ -109,10 +108,7 @@ function init() {
                 hexagons[i].style.backgroundColor = newColor;
             }
         }
-        console.log("Kaleidoscope design changed to new color scheme");
     }
-
-    // TODO: Implement mirroring - change opacity of all non-clickables during edits (mouseover event)
 
     // For reset button with confirmation popup
     function resetDesign() {
@@ -158,7 +154,12 @@ function init() {
 
         // If user clicks on hexagon
         if (event.target.matches(".clickable")) {
-            event.target.style.backgroundColor = currentColor;
+            for (let i=0; i < hexagons.length; i++) {
+                if (hexagons[i].classList[1] === event.target.classList[1]) { // mirror effect
+                    // TODO: add ability to revert to default color like a toggle
+                    hexagons[i].style.backgroundColor = currentColor;
+                }
+            }
         } 
 
         // If user clicks on reset button
