@@ -92,7 +92,7 @@ function init() {
 
     function setBlanks() {
         for (let i=0; i < blanks.length; i++) {
-            blanks[i].style.backgroundColor = base;
+            blanks[i].style.backgroundColor = "transparent";
         }
     }
 
@@ -103,7 +103,6 @@ function init() {
         document.getElementById("accent").style.backgroundColor = accent;
         resetBorders();
         highlightSelection(document.getElementById("color0"));
-        setBlanks();
         setMiscStyles();
     }
 
@@ -142,6 +141,8 @@ function init() {
 
     // First time to populate colors and base/accent/border defaults
     renderPageColors();
+    setBlanks();
+    
     // Reset design first time so DOM has colors (can't access style sheet);
     resetDesign();
     
