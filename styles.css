@@ -221,3 +221,8 @@ p {
     transform:rotate(45.5deg) skew(16.5deg,15.5deg);  
 }
 
+/* This is just to take advantage of VSCode's color picker */
+test {
+    color: #3599a7;
+}
+

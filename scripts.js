@@ -1,38 +1,32 @@
 /*** KALEIDOSCOPE ***/
 
 /*
-    The goal is to make this interactive for users. They should be able to:
+    My goal was to make this interactive for users. They should be able to:
         - Choose a color scheme
-        - Select a specific color from that scheme to use to change hexagons
+        - Select a specific color from that scheme as the current color
         - Always have white and off-black (#222) as options
-        - "Fill" the hexagons in the kaleidoscope with different colors
-        - Edit only one "slice", and the others will reflect it
+        - Fill the individual hexagons in the kaleidoscope with different colors
+        - Edit only one "slice", emphasized on hover, and the others will reflect it
         - If the user changes color schemes, the entire kaleidoscope needs to reflect the change
         - There should be a reset button with a confirmation popup
 
-    BONUS 1: Make the page work in light mode or dark mode
-    BONUS 2: Make the page load with a random design already in place.
-
-    The HTML and CSS files are set. It is recommended not to edit them.
-    The color schemes and some JS functionality are provided in this file already; you just need to make everything interactive for the user.
+    BONUS: Make the page work in light mode or dark mode
 */
 
 /** DATA **/
 
-// TODO: Revise color orders and limit number of schemes
-
 let schemes = [
-    { "name": "Daytona", "colors": ["#b09e99","#fee9e1","#fad4c0","#c0fdfb","#64b6ac"]},
+    { "name": "Daytona", "colors": ["#b09e99","#64b6ac","#c0fdfb","#fad4c0","#fee9e1"]},
     { "name": "Tahoe", "colors": ["#bc4749", "#c17c74","#7a6c5d","#bcac9b","#ddc9b4"]},
-    { "name": "Tahiti", "colors": ["#ff9f1c","#ffbf69","#ffecb6","#cbf3f0","#2ec4b6"]},  
-    { "name": "Club Neon", "colors": ["#75dddd","#84c7d0","#9297c4","#9368b7","#aa3e98"]},
+    { "name": "Tahiti", "colors": ["#2ec4b6","#ff9f1c","#ffbf69","#ffecb6","#cbf3f0"]},  
+    { "name": "Club Neon", "colors": ["#aa3e98","#9368b7","#9297c4","#3599a7","#75dddd"]},
     { "name": "Wisteria", "colors": ["#360568","#5b2a86","#7785ac","#9ac6c5","#4eb870"]},
-    { "name": "Fresh Melon", "colors": ["#386641","#6a994e","#a7c957","#f2e8cf","#bc4749"]},
-    { "name": "Lake House", "colors": ["#086788","#07a0c3","#f0c808","#fff1d0","#dd1c1a"]},
-    { "name": "Sitka", "colors": ["#db504a","#ff6f59","#b2b09b","#254441","#43aa8b"]},
-    { "name": "Flagstaff", "colors": ["#2a9d8f","#175e7a","#e9c46a","#f4a261","#e76f51"]},
+    { "name": "Fresh Melon", "colors": ["#bc4749","#386641","#6a994e","#a7c957","#f2e8cf"]},
+    { "name": "Lake House", "colors": ["#dd1c1a","#086788","#07a0c3","#f0c808","#fff1d0"]},
+    { "name": "Sitka", "colors": ["#254441","#43aa8b","#db504a","#ff6f59","#b2b09b"]},
+    { "name": "Flagstaff", "colors": ["#175e7a","#2a9d8f","#e76f51","#f4a261","#e9c46a"]},
     { "name": "Lush Lipstick", "colors": ["#4f000b","#720026","#ce4257","#ff7f51","#ff9b54"]},
-    { "name": "Disco", "colors": ["#5f0f40","#9a031e","#fb8b24","#e36414","#0f4c5c"]}
+    { "name": "Disco", "colors": ["#0f4c5c","#5f0f40","#9a031e","#e36414","#fb8b24"]}
 ];
 // HT: Hex values for palettes copied, rather efficiently, from https://coolors.co/palettes/trending
 
@@ -125,7 +119,7 @@ function init() {
         for (let i=0; i < hexagons.length; i++) {
             oldColor = hexagons[i].style.backgroundColor;
             // If not white or grey
-            if (oldColor) { // TODO: check logic
+            if (oldColor) { 
                 indexOfColor = currentScheme.colors.indexOf(rgbToHex(oldColor));
                 newColor = schemes[indexOfNewScheme].colors[indexOfColor];
                 hexagons[i].style.backgroundColor = newColor;
@@ -143,7 +137,7 @@ function init() {
     renderPageColors();
     setBlanks();
     
-    // Reset design first time so DOM has colors (can't access style sheet);
+    // Reset design first time so DOM has colors (it can't access style sheet);
     resetDesign();
     
 
